@@ -1,9 +1,12 @@
 
 var countdownTimerEl = document.getElementById("countdownTimer");
 var displayTimeEL = document.getElementById("displayTime");
+var startButtonEl = document.getElementById("startButton");
 
-
-
+//event listener attached to start button
+startButtonEl.addEventListener("click", function(){
+  countdownTime();
+});
 
 
 function countdownTime() {
@@ -19,7 +22,7 @@ function countdownTime() {
         }
     }, 1000);
 };
-countdownTime();
+
 
 
 

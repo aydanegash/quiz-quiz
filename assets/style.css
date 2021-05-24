@@ -34,7 +34,8 @@ button {
 }
 
 .countdown {
-  
+  float: right;
+  text-align: center;
 }
 
 .submitButton {
