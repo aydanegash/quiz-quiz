@@ -1,14 +1,7 @@
-
-var countdownTimerEl = document.getElementById("countdownTimer");
 var displayTimeEL = document.getElementById("displayTime");
 var startButtonEl = document.getElementById("startButton");
-var answerChoiceA = document.getElementById("answerChoiceA");
-var answerChoiceB = document.getElementById("answerChoiceB");
-var answerChoiceC = document.getElementById("answerChoiceC");
-var answerChoiceD = document.getElementById("answerChoiceD");
-var quizQuestions = document.getElementById("quizQuestionsDisplay");
+var quiz = document.getElementById("quiz");
 var startScreen = document.getElementById("startScreen");
-var actualQuestion = document.getElementById("acutalQuestion");
 var gameOver = "GAME OVER! You have a score of " + score;
 var scoreEl = document.getElementById("score");
 var submitButtonEl = document.getElementById("submitButton");
@@ -84,17 +77,8 @@ const theQuestions = [
 
 ];
 
-
-
-
-
-//event listener attached to start button
-startButtonEl.addEventListener("click", function(){
-  countdownTime();
-});
-
 function countdownTime() {
-  var timeCountdown = 10;
+  var timeCountdown = 60;
     var timeInterval = setInterval(function () {   
       if (timeCountdown > 1) {    
           displayTimeEL.textContent = timeCountdown;   
@@ -109,11 +93,110 @@ function countdownTime() {
     }, 1000);
 };
 
+function showQuiz(){
+  const output = [];
+    // for each question...
+    theQuestions.forEach(
+      (currentQuestion, questionNumber) => {
+  
+        // variable to store the list of possible answers
+        const answers = [];
+  
+        // and for each available answer...
+        for(letter in currentQuestion.answers){
+  
+          // ...add an HTML radio button
+          answers.push(
+            `<label>
+              <input type="radio" name="question${questionNumber}" value="${letter}">
+              ${letter} :
+              ${currentQuestion.answers[letter]}
+            </label>`
+          );
+        }
+  
+        // add this question and its answers to the output
+        output.push(
+          `<div class="slide"></div>
+          <div class="question"> ${currentQuestion.question} </div>
+          <div class="answers"> ${answers.join('')} </div>`
+        );
+      }
+    );
+  
+    // finally combine our output list into one string of HTML and put it on the page
+    quiz.innerHTML = output.join('');
+  };
 
+
+function showScore(){
+  
+  // gather answer containers from our quiz
+  const answerContainers = quiz.querySelectorAll('.answers');
+
+  // keep track of user's answers
+  let numCorrect = 0;
+
+  // for each question...
+  theQuestions.forEach( (currentQuestion, questionNumber) => {
+
+    // find selected answer
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+    // if answer is correct
+    if(userAnswer === currentQuestion.correctAnswer){
+      // add to the number of correct answers
+      numCorrect++;
+
+      // color the answers green
+      answerContainers[questionNumber].style.color = 'lightgreen';
+    }
+    // if answer is wrong or blank
+    else{
+      // color the answers red
+      answerContainers[questionNumber].style.color = 'red';
+    }
+  });
+
+  // show number of correct answers out of total
+  resultsContainer.innerHTML = `${numCorrect} out of ${theQuestions.length}`;
+};
+
+function showSlide(n) {
+  slides[currentSlide].classList.remove('active-slide');
+  slides[n].classList.add('active-slide');
+  currentSlide = n;
+  if(currentSlide === 0){
+    lastBtn.style.display = 'none';
+  }
+  else{
+    previousBtn.style.display = 'inline-block';
+  }
+  if(currentSlide === slides.length-1){
+    nextBtn.style.display = 'none';
+    submitButton.style.display = 'inline-block';
+  }
+  else{
+    nextButton.style.display = 'inline-block';
+    submitButton.style.display = 'none';
+  }
+}
+
+//event listener attached to start button
+startButtonEl.addEventListener("click", function(){
+  countdownTime();
+  showQuiz();
+});
+
+// Pagination
+const lastBtn = document.getElementById("previous");
+const nextBtn = document.getElementById("next");
+const slides = document.querySelectorAll(".slide");
+let currentSlide = 0;
  
-submitButtonEl.addEventListener("click", function(){
-  document.getElementById("score").innerHTML = score 
-})
+submitButtonEl.addEventListener("click", showScore);
 
 
 
