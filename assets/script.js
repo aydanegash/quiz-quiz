@@ -117,13 +117,12 @@ function showQuiz(){
   
         // add this question and its answers to the output
         output.push(
-          `<div class="slide"></div>
+          `
           <div class="question"> ${currentQuestion.question} </div>
           <div class="answers"> ${answers.join('')} </div>`
         );
       }
     );
-  
     // finally combine our output list into one string of HTML and put it on the page
     quiz.innerHTML = output.join('');
   };
@@ -164,18 +163,6 @@ function showScore(){
   scoreEl.innerHTML = `${numCorrect} out of ${theQuestions.length}`;
 };
 
-startButtonEl.addEventListener("click", function(){
-  countdownTime();
-  showQuiz();
-});
-
-// Pagination
-const lastBtn = document.getElementById("previous");
-const nextBtn = document.getElementById("next");
-const slides = document.querySelectorAll(".slide");
-let currentSlide = 0;
-showSlide(currentSlide);
-
 function showSlide(n) {
   slides[currentSlide].classList.remove('active-slide');
   slides[n].classList.add('active-slide');
@@ -195,6 +182,19 @@ function showSlide(n) {
     submitButtonEl.style.display = 'none';
   }
 }
+
+startButtonEl.addEventListener("click", function(){
+  countdownTime();
+  showQuiz();
+});
+
+// Pagination
+const lastBtn = document.getElementById("previous");
+const nextBtn = document.getElementById("next");
+const slides = document.querySelectorAll(".slide");
+let currentSlide = 0;
+showSlide(currentSlide);
+
 
 function showNextSlide() {
   showSlide(currentSlide + 1);
