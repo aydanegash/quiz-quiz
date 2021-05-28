@@ -79,7 +79,7 @@ const theQuestions = [
 
 function countdownTime() {
   var timeCountdown = 60;
-    var timeInterval = setInterval(function () {   
+    var timeInterval = setInterval(function () {  
       if (timeCountdown > 1) {    
           displayTimeEL.textContent = timeCountdown;   
           timeCountdown--;
@@ -146,7 +146,7 @@ function showScore(){
     const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
     // if answer is correct
-    if(userAnswer === currentQuestion.correctAnswer){
+    if(userAnswer === currentQuestion.correctAns){
       // add to the number of correct answers
       numCorrect++;
 
@@ -161,30 +161,9 @@ function showScore(){
   });
 
   // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${theQuestions.length}`;
+  scoreEl.innerHTML = `${numCorrect} out of ${theQuestions.length}`;
 };
 
-function showSlide(n) {
-  slides[currentSlide].classList.remove('active-slide');
-  slides[n].classList.add('active-slide');
-  currentSlide = n;
-  if(currentSlide === 0){
-    lastBtn.style.display = 'none';
-  }
-  else{
-    previousBtn.style.display = 'inline-block';
-  }
-  if(currentSlide === slides.length-1){
-    nextBtn.style.display = 'none';
-    submitButton.style.display = 'inline-block';
-  }
-  else{
-    nextButton.style.display = 'inline-block';
-    submitButton.style.display = 'none';
-  }
-}
-
-//event listener attached to start button
 startButtonEl.addEventListener("click", function(){
   countdownTime();
   showQuiz();
@@ -195,7 +174,42 @@ const lastBtn = document.getElementById("previous");
 const nextBtn = document.getElementById("next");
 const slides = document.querySelectorAll(".slide");
 let currentSlide = 0;
- 
+showSlide(currentSlide);
+
+function showSlide(n) {
+  slides[currentSlide].classList.remove('active-slide');
+  slides[n].classList.add('active-slide');
+  currentSlide = n;
+  if(currentSlide === 0){
+    lastBtn.style.display = 'none';
+  }
+  else{
+    lastBtn.style.display = 'inline-block';
+  }
+  if(currentSlide === slides.length-1){
+    nextBtn.style.display = 'none';
+    submitButton.style.display = 'inline-block';
+  }
+  else{
+    nextButton.style.display = 'inline-block';
+    submitButtonEl.style.display = 'none';
+  }
+}
+
+function showNextSlide() {
+  showSlide(currentSlide + 1);
+}
+
+function showPreviousSlide() {
+  showSlide(currentSlide - 1);
+}
+
+
+
+//event listener attached to start button
+
+lastBtn.addEventListener("click", showPreviousSlide);
+nextBtn.addEventListener("click", showNextSlide);
 submitButtonEl.addEventListener("click", showScore);
 
 
