@@ -26,7 +26,7 @@ https://aydanegash.github.io/quiz-quiz/
 
 ##License & copyright
 
-Licensed under [MIT License](Licence).
+Licensed under [MIT License](License).
 
 
                     
