@@ -2,11 +2,18 @@ var displayTimeEL = document.getElementById("displayTime");
 var startButtonEl = document.getElementById("startButton");
 var quiz = document.getElementById("quiz");
 var startScreen = document.getElementById("startScreen");
-var gameOver = "GAME OVER! You have a score of " + score;
+var gameOver = "GAME OVER! You have a score of ";
 var scoreEl = document.getElementById("score");
 var submitButtonEl = document.getElementById("submitButton");
 
 //array of questions for quiz
+const intro = [`Welcome to Coding Quiz! In this game, you will be tested on your coding
+knowledge. There will be a total of 7 questions and 60 seconds to complete
+the quiz. When you are ready to begin, press the button below.
+Good luck! `];
+
+
+
 const theQuestions = [
   {
     question: "If a website is a wedding, what aspect of the wedding is analogous to the HTML.",
@@ -83,6 +90,9 @@ function countdownTime() {
       if (timeCountdown > 1) {    
           displayTimeEL.textContent = timeCountdown;   
           timeCountdown--;
+    // } if (timeInterval === 0) {
+    //   quiz.innerHTML= `${gameOver} ${grade}%`
+    // }
       // if(timeCountdown = 0) {
       //   displayTimeEL.textContent = gameOver; 
       //}
@@ -92,6 +102,7 @@ function countdownTime() {
         }
     }, 1000);
 };
+
 
 function showQuiz(){
   const output = [];
@@ -158,9 +169,10 @@ function showScore(){
       answerContainers[questionNumber].style.color = 'red';
     }
   });
-
+  let grade = Math.floor((numCorrect/theQuestions.length)*100)
   // show number of correct answers out of total
-  scoreEl.innerHTML = `${numCorrect} out of ${theQuestions.length}`;
+  //scoreEl.innerHTML = `${numCorrect} out of ${theQuestions.length}`;
+  scoreEl.innerHTML= `${grade}%`
 };
 
 function showSlide(n) {
@@ -183,10 +195,16 @@ function showSlide(n) {
   }
 }
 
+//event listener attached to start button
 startButtonEl.addEventListener("click", function(){
   countdownTime();
   showQuiz();
 });
+submitButtonEl.addEventListener("click", showScore);
+lastBtn.addEventListener("click", showPreviousSlide);
+nextBtn.addEventListener("click", showNextSlide);
+
+
 
 // Pagination
 const lastBtn = document.getElementById("previous");
@@ -206,11 +224,7 @@ function showPreviousSlide() {
 
 
 
-//event listener attached to start button
 
-lastBtn.addEventListener("click", showPreviousSlide);
-nextBtn.addEventListener("click", showNextSlide);
-submitButtonEl.addEventListener("click", showScore);
 
 
 
