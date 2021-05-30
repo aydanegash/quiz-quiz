@@ -22,7 +22,7 @@ to proceed to next question or go back to previous question.
 ## Deplyoed website
 https://aydanegash.github.io/quiz-quiz/ 
 
-
+![](assets/images/deployedWebsite.png)
 
 ## License & copyright
 
